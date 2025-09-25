@@ -1,5 +1,5 @@
 # atypica-backend
-The backend of the Atypica App, an AI educational tool for acessibility for the neurodivergent community.
+The backend of the Atypica App, an AI educational tool for accessibility for the neurodivergent community.
 
 ## Installation
 Install Ollama in your local machine; consult the [detailed instructions for installing ollama here](https://ollama.com/download/). For Linux environments, use the following command.
