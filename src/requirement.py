@@ -40,3 +40,7 @@ class Requirement:
         self.raw_text = FileManager.load_text(self.file_path)
         self.loaded_req: bool = True
         return
+    
+    
+    def __str__(self):
+        return self.raw_text
