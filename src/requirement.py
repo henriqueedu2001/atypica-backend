@@ -18,6 +18,7 @@ class Requirement:
             description: str = None,
             criteria: str = None,
             examples: List[Example] = None,
+            on_single_question: bool = False,
             file_path: Path = None,
             load_on_creation: bool = True
         ):
@@ -27,7 +28,8 @@ class Requirement:
         self.type: Literal['functional', 'non functional'] = type
         description: str = description
         self.criteria: str = criteria
-        examples: List[Example] = examples
+        self.examples: List[Example] = examples
+        self.on_single_question: bool = on_single_question
         # loading from markdown file
         self.file_path: Union[str, Path] = file_path
         self.raw_text: str = 'empty requirement'
