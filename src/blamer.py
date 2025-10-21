@@ -1,12 +1,17 @@
-from ingestor import Ingestor
 from llm import LLM
 from langchain_core.prompts import PromptTemplate
+from exam import Exam, Question
 from requirement import Requirement
 from file_manager import FileManager
 import json
 import re
 from pathlib import Path
 from typing import *
+
+class Blaming:
+    def __init__(self):
+        return
+    
 
 class Blamer:
     def __init__(self, prompt_template_path: Path, model: str):
@@ -18,12 +23,14 @@ class Blamer:
         return
     
     
-    def blame(self, exam_text: str, requirement: Union[str, Requirement]):
+    def blame(self, exam_text: Union[Exam, Question], requirement: Union[str, Requirement]) -> Dict:
         self.compile_prompt(exam_text=exam_text, requirement=requirement)
         llm = LLM(model=self.model)
         answer = llm.ask(self.prompt)
-        print(answer)
         answer = LLM.extract_json_from_answer(answer)
+        answer['requirement_id'] = requirement.id
+        if type(exam_text) is Exam: answer['question_id'] = 0
+        elif type(exam_text) is Question: answer['question_id'] = exam_text.question_number
         return answer
 
 
@@ -43,7 +50,7 @@ class Blamer:
         return
 
 
-exam_sample = '6) Karl Marx dizia que a história humana pode ser entendida como uma luta entre classes ou grupos, ou setores, ou formas de produção. Isso significa:\na) Conflitos de classes.\nb) Filosofia da linguagem.\nc) Expansão marítima.\nd) Desenvolvimento da metafísica.'
-requirement = Requirement(file_path='knowledge/requirements/RF02.md')
-blamer = Blamer(prompt_template_path='knowledge/prompts/requirement_analysis.md', model='gemma3:4b')
-blamer.blame(exam_text=exam_sample, requirement=requirement)
+# exam_sample = '6) Karl Marx dizia que a história humana pode ser entendida como uma luta entre classes ou grupos, ou setores, ou formas de produção. Isso significa:\na) Conflitos de classes.\nb) Filosofia da linguagem.\nc) Expansão marítima.\nd) Desenvolvimento da metafísica.'
+# requirement = Requirement(file_path='knowledge/requirements/RF06.md')
+# blamer = Blamer(prompt_template_path='knowledge/prompts/requirement_analysis.md', model='gemma3:12b')
+# blamer.blame(exam_text=exam_sample, requirement=requirement)
