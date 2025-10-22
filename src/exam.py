@@ -45,7 +45,7 @@ class Exam:
     
     def set_questions(self, questions: List[str]):
         for index, question in enumerate(questions):
-            self.questions.append(Question(question_number=index, question_text=question))
+            self.questions.append(Question(question_number=index + 1, question_text=question))
         return
     
     
