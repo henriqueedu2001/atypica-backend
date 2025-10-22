@@ -27,8 +27,11 @@ class Blamer:
         self.compile_prompt(exam_text=exam_text, requirement=requirement)
         llm = LLM(model=self.model)
         answer = llm.ask(self.prompt)
-        answer = LLM.extract_json_from_answer(answer)
-        answer['requirement_id'] = requirement.id
+        try:
+            answer = LLM.extract_json_from_answer(answer)
+        except:
+            answer = {'analysis': answer}
+        answer['requirement_id'] = requirement.requirement_id
         if type(exam_text) is Exam: answer['question_id'] = 0
         elif type(exam_text) is Question: answer['question_id'] = exam_text.question_number
         return answer
